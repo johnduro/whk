@@ -5,7 +5,7 @@
 ?>
 <html>
 <head>
-	<link href="style.css" rel="stylesheet">    
+	<link href="style.css" rel="stylesheet">
 </head>
 <body>
    <!-- <embed src="music.mp3" autostart="true" loop="true" hidden="true"></embed>-->
@@ -61,6 +61,12 @@
                     echo "<div id='carre'> <img id='obstacle' title='Asteroid' src='img/w/asteroid-4.gif'> </div>";
                     else if ($grid[$i][$j] === 29)
                     echo "<div id='carre'> <img id='obstacle_big' title='Asteroid' src='img/w/asteroidAn.gif'> </div>";
+                    else if ($grid[$i][$j] === 1)
+                    echo "<div id='carre' style='background-color: red'> </div>";
+                    else if ($grid[$i][$j] === 2)
+                    echo "<div id='carre' style='background-color: green'> </div>";
+                    else if ($grid[$i][$j] === 3)
+                    echo "<div id='carre'style='background-color: yellow'> </div>";
                     else
                     echo "<div id='carre'></div>";
                     $j++;
