@@ -14,7 +14,7 @@ function get_board($player1, $player2, $asteroid)
 		$j = 1;
 		$tab = $pl->getPos();
 		$dim = $pl->getDim();
-		$board[$tab[1]][$tab[0]] = $pl->getId();
+		$board[$tab[1]][$tab[0]] = array($pl->getId(), $pl->getOrientation());
 		while ($i < $dim[1])
 		{
 			while ($j < $dim[0])
@@ -32,7 +32,7 @@ function get_board($player1, $player2, $asteroid)
 		$j = 1;
 		$tab = $pl->getPos();
 		$dim = $pl->getDim();
-		$board[$tab[1]][$tab[0]] = $pl->getId();
+		$board[$tab[1]][$tab[0]] = array($pl->getId(), $pl->getOrientation());
 		while ($i < $dim[1])
 		{
 			while ($j < $dim[0])

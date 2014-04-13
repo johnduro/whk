@@ -98,8 +98,6 @@ function	make_move($move, $array)
 	$ship->setOrientation($array['ship_orientation']);
 	$pos = $ship->getPos();
 	$dim = $ship->getDim();
-	print_r($pos);
-	print_r($dim);
 	if ($array['ship_orientation'] === "down")
 	{
 		$y = $pos[1] + intval($array['deplacement']);

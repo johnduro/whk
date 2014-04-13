@@ -154,11 +154,9 @@
                     else
                     {
                         echo '<div id="panel_form">';
-<<<<<<< HEAD
                             echo "Unleash Your RAGE !!!";
                         echo "</div>";
                         echo '<input type="submit" value="fire" class="button">';
-=======
                         echo "Unleash Your RAGE !!!";
                         echo "</div>";
                         echo ' <form action="playground.php" method="POST" name="form">';
@@ -167,7 +165,6 @@
                         echo '</form>';
                         echo 'icsandlas;ndasdbaf';
 
->>>>>>> 6ea9df2f1aa02e6d65cb125226c3a8084c631109
                         end_turn();
                         end_turn();
                     }
