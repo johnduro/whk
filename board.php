@@ -30,6 +30,9 @@ function	make_order($array)
 			$_SESSION['ship_to_play'] = $array['ship_to_play'];
 			$_SESSION['index_ship'] = $i;
 			$_SESSION['ship_orientation'] = $ship->getOrientation();
+			include('connection.php');
+			$req = bdd->prepare("INSERT INTO `party`.current_ship = ".$_SESSION['ship_to_play']);
+			$req->execute();
 			break ;
 		}
 	}

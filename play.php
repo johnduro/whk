@@ -42,9 +42,9 @@ function end_turn()
 function	kill_ship()
 {
 
-    include('connection.php');
+	include('connection.php');
 
-    $req = "SELECT player_1_obj, player_2_obj, player_3_obj, player_4_obj, asteroid FROM party WHERE `id`=".$_SESSION['id_party']."";
+	$req = "SELECT player_1_obj, player_2_obj, player_3_obj, player_4_obj, asteroid FROM party WHERE `id`=".$_SESSION['id_party']."";
 	$pl = array();
 	foreach ($bdd->query($req) as $test)
 	{

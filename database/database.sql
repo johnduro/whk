@@ -17,6 +17,7 @@ CREATE TABLE game.party
   `asteroid` text NOT NULL,
   `running` tinyint(1) NOT NULL,
   `turn` int(11) NOT NULL,
+  `current_ship` VARCHAR(50) NOT NULL,
   `player` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=14 ;

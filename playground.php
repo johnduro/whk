@@ -10,11 +10,11 @@
         turn();
     require_once("functionjs.php");
 
-    function    first($player)
+    function    first($player, $ship)
     {
-        $pos = $player->ships[$_SESSION['index_ship']]->getPos();
-        $dim = $player->ships[$_SESSION['index_ship']]->getDim();
-        $or = $player->ships[$_SESSION['index_ship']]->getOrientation();
+        $pos = $player->ships[$ship]->getPos();
+        $dim = $player->ships[$ship]->getDim();
+        $or = $player->ships[$ship]->getOrientation();
         if ($or == "0deg")
         {
             $pos[0] += $dim[0] - 2;
@@ -62,11 +62,11 @@
         return ($pos);
     }
 
-    function    second($player)
+    function    second($player, $ship)
     {
-        $pos = $player->ships[$_SESSION['index_ship']]->getPos();
-        $dim = $player->ships[$_SESSION['index_ship']]->getDim();
-        $or = $player->ships[$_SESSION['index_ship']]->getOrientation();
+        $pos = $player->ships[$ship]->getPos();
+        $dim = $player->ships[$ship]->getDim();
+        $or = $player->ships[$ship]->getOrientation();
         if ($or == "0deg")
         {
             $pos[0] += 1;
@@ -114,25 +114,30 @@
         return ($pos);
     }
 
-/*    function    take_pos()
+    function    take_pos()
     {
-        if ($_SESSION['move'] == 1)
+        include('connection.php');
+
+        $req = "SELECT player_".$turn."_obj, current_ship FROM party WHERE `id`=".$_SESSION['id_party']."";
+        $pl = array();
+        foreach ($bdd->query($req) as $test)
         {
-            $player = unserialize($_SESSION['player_1']);
-            return (first($player));
+            if ($test['player_'.$turn.'_obj'] !== "")
+                $ser_pl = unserialize($test['player_'.$turn.'_obj']);
+            if ($test['current_ship'] !== "")
+                $ship = $test['current_ship'];
         }
+        if (intval($turn) == 1 || intval($turn) == 3)
+            return (first($player, $ship));
         else
-        {
-            $player = unserialize($_SESSION['player_2']);
-            return (second($player));
-        }
-    }*/
+            return (second($player, $ship));
+    }
 
 ?>
 <html>
 <head>
-	<link href="style.css" rel="stylesheet">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <link href="style.css" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 <body>
    <!-- <embed src="music.mp3" autostart="true" loop="true" hidden="true"></embed>-->
@@ -142,10 +147,10 @@
                 $i = 0;
                 $j = 0;
                 $grid = get_board();
-/*                if (isset($_POST['fire']))
+                if (isset($_POST['fire']))
                     $pos = take_pos();
                 else
-                    $pos = array(-1 , -1);*/
+                    $pos = array(-1 , -1);
                 while($i < 100)
                 {
                     $j = 0;
@@ -195,15 +200,36 @@
                         echo "<div id='carre'> <img id='obstacle' title='Asteroid' src='img/w/asteroid-4.gif'> </div>";
                         else if ($grid[$i][$j] === 29)
                         echo "<div id='carre'> <img id='obstacle_big' title='Asteroid' src='img/w/asteroidAn.gif'> </div>";
-  /*                      else if ($i == $pos[1] && $j == $pos[0])
+                        else if ($i == $pos[1] && $j == $pos[0])
                         {
                             if ($pos[3] == 1)
-                                echo "<img id='laser1' src='img/w/laser_green.png'>";
+                            {
+                                echo $i."ici c'est i en pos[3]";
+                                echo $j."ici c'est j en pos[3]";
+                                  if ($grid[$i][$j] >= (10 * 10) && $grid[$i][$j] <= (16 * 10))
+                                    echo "<img id='laser1' src='img/w/laser_red.png'>";
+                                 else if ($grid[$i][$j] >= (17 * 10) && $grid[$i][$j] <= (10 * 23 ))
+                                     echo "<img id='laser1' src='img/w/laser_green.png'>";
+                            }
                             else if ($pos[3] == 2)
-                                echo "<img id='laser2' src='img/w/laser_green.png'>";
+                            {
+                                  echo $i."ici c'est i en pos[3]2";
+                                echo $j."ici c'est j en pos[3]2";
+                                if ($grid[$i][$j] >= (10 * 10) && $grid[$i][$j] <= (16 * 10))
+                                    echo "<img id='laser2' src='img/w/laser_red.png'>";
+                                else if ($grid[$i][$j] >= (17 * 10) && $grid[$i][$j] <= (23 * 10))
+                                   echo "<img id='laser2' src='img/w/laser_green.png'>";
+                            }
                             else
-                                echo "<img id='laser3' src='img/w/laser_green.png'>";
-                        }*/
+                            {
+                                  echo $i."ici c'est i en pos[3]3";
+                                echo $j."ici c'est j en pos[3]3";
+                                if ($grid[$i][$j - 1] >= (10 * 10) && $grid[$i][$j - 1] <= (16 * 10))
+                                    echo "<img id='laser3' src='img/w/laser_red.png'>";
+                                else if ($grid[$i][$j - 1] >= (17 * 10) && $grid[$i][$j - 1] <= (23 * 10))
+                                     echo "<img id='laser3' src='img/w/laser_green.png'>";
+                            }
+                        }
                         else
                             echo "<div id='carre'></div>";
                         $j++;
@@ -295,29 +321,29 @@
                 ?>
             </div>
             <div id="chat">
-    			<script type="text/javascript">
-    			   function SendForm()
-    			   {
-    				   var jqxhr = $.ajax({
-    					   type: "POST",
-    						   url: "chat-set.php",
-    						   data: {login: $("#chat_login").val(), text: $("#chat_text").val()}
-    				   });
-    				   $("#chat_text").val("");
-    			   }
-    			   var autoLoad = setInterval(
-    				   function ()
-    				   {
-    					   $('#chat_content').load('chat-get.php');
-    				   }, 100);
+                <script type="text/javascript">
+                   function SendForm()
+                   {
+                       var jqxhr = $.ajax({
+                           type: "POST",
+                               url: "chat-set.php",
+                               data: {login: $("#chat_login").val(), text: $("#chat_text").val()}
+                       });
+                       $("#chat_text").val("");
+                   }
+                   var autoLoad = setInterval(
+                       function ()
+                       {
+                           $('#chat_content').load('chat-get.php');
+                       }, 100);
                 </script>
                 <div id="chat_content"><?php include('chat-get.php'); ?></div>
                 <form id="chat_post" method="post" onsubmit="SendForm(); return false;">
-    				<input type="hidden" id="chat_login" name="login" value= <?php echo $_SESSION['player']; ?> >
-    				<label for="message">Message</label> :
+                    <input type="hidden" id="chat_login" name="login" value= <?php echo $_SESSION['player']; ?> >
+                    <label for="message">Message</label> :
                     <input type="text" id="chat_text" name="text" maxlength="255" >
-    				<input type="submit" id="submit" name="submit" value="Send" />
-				</form>
+                    <input type="submit" id="submit" name="submit" value="Send" />
+                </form>
             </div>
         </div>
     </div>
