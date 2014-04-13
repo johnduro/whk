@@ -22,11 +22,11 @@ $_SESSION['init_game'] = 1;
 	    <form method="post" action="init_session.php">
 	    	<div id="player1">
 		    	PLAYER 1 :
-				<input type="text" value="" name="player1">
+				<input type="text" value="" name="player1" required>
 			</div>
 			<div id="player2">
 				PLAYER 2 :
-				<input type="text" value="" name="player2">
+				<input type="text" value="" name="player2" required>
 			</div>
 	    	<input type="submit" name="submit" value="PLAY !" id="button">
 	    </form>
