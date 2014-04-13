@@ -50,6 +50,17 @@ class Pawn
 		return file_get_contents("./Pawn:wwwwwww.doc.txt");
 	}
 
+	public function is_take_damage($hit, $dmg)
+	{
+		if ($hit[0] >= $this->_pos[0] && $hit[0] <= $this->_pos[0] + $this->_dim[0] && $hit[1] >= $this->_pos[1] && $hit[1] <= $this->_pos[1] + $this->_dim[1])
+		{
+			$this->setHealth($dmg);
+			return TRUE;
+		}
+		else
+			return FALSE;
+	}
+
 	public function	getHealth() {return $this->_health;}
 	public function	getPos() {return $this->_pos;}
 	public function	getName() {return $this->_name;}
