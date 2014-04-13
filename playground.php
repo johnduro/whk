@@ -1,7 +1,20 @@
 <?php
-    require_once("play.php");
-    turn();
-    require_once("functionjs.php");
+session_start();
+ try
+{
+	$bdd = new PDO('mysql:host=localhost;port=8080;dbname=game', 'root', '123456789');
+}
+catch(Exception $e)
+{
+	die('Erreur : '.$e->getMessage());
+}
+$req = 'SELECT turn FROM party WHERE `id`='.$_SESSION['id_party'];
+foreach ($bdd->query($req) as $test)
+	$turn = $test['turn'];
+require_once("play.php");
+if ($turn === $_SESSION['player_id'])
+	turn();
+require_once("functionjs.php");
 ?>
 <html>
 <head>
@@ -16,7 +29,7 @@
         <?php
             $i = 0;
             $j = 0;
-            $grid = $_SESSION['board'];
+$grid = get_board(); //ici
             while($i < 100)
             {
                 $j = 0;
@@ -83,7 +96,12 @@
         </span>
         <form action='playground.php' method='POST' name="form">
         <?php
-               if ($_SESSION['select'] == 1)
+				if ($_SESSION['player_id'] !== $turn)
+				{
+					echo "Waiting for others players !";
+					header("Refresh: 15; url=playground.php");
+				}
+               else if ($_SESSION['select'] == 1)
                 {
                     end_turn();
                     foreach ($_SESSION['print_ship'] as $value)
@@ -122,7 +140,8 @@
                     <input type="text" name="deplacement" id="incrementation1" value="0">
                     <input type="button" name="bouton" value="+" onclick="incremente(1);">
             <?php
-            } else end_turn();
+				} else
+				   end_turn();
             ?>
                 <input type="submit" value="next" class="button">
             </form>
@@ -150,7 +169,7 @@
 				   <input type="hidden" id="chat_login" name="login" value="'.$_SESSION['player1_name'].'" />
 				   <label for="message">Message</label> :  <input type="text" id="chat_text" name="text" maxlength="255" >
 				   <input type="submit" id="submit" name="submit" value="Send" />
-				   </form>'; ?> 
+				   </form>'; ?>
 
 	</div>
     </div>

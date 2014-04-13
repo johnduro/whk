@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 foreach ($_SESSION as $key => $value)
 {
 	if ($key !== "init_game")
@@ -19,14 +20,10 @@ $_SESSION['init_game'] = 1;
 </head>
 <body>
 	<div id="form_info">
-	    <form method="post" action="init_session.php">
+	    <form method="post" action="lobby.php">
 	    	<div id="player1">
-		    	PLAYER 1 :
-				<input type="text" value="" name="player1" required>
-			</div>
-			<div id="player2">
-				PLAYER 2 :
-				<input type="text" value="" name="player2" required>
+		    	PLAYER :
+				<input type="text" value="" name="player" required>
 			</div>
 	    	<input type="submit" name="submit" value="PLAY !" id="button">
 	    </form>

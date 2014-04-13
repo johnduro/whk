@@ -6,15 +6,15 @@ require_once("Player.class.php");
 require_once("Weapon.class.php");
 require_once("get_board.php");
 require_once('Serial.trait.php');
-
+/*
 function	making($move, $bol, $player)
 {
 	if (!$bol)
 	{
 		if ($move == 1)
-			$player = unserialize($_SESSION['player_1']);
+			$player = unserialize($_SESSION['player1_name']);
 		else
-			$player = unserialize($_SESSION['player_2']);
+			$player = unserialize($_SESSION['player2_name']);
 		return ($player);
 	}
 	else
@@ -25,21 +25,26 @@ function	making($move, $bol, $player)
 			$_SESSION['player_2'] = $player->getSerial();
 	}
 }
+*/
+
 
 function	make_select($move)
 {
-	$player = making($move, 0, NULL);
+//	$player = making($move, 0, NULL);
+	$player = unserialize($_SESSION['player_obj']);
 	$ships = $player->getShips();
 	$print_ship = array();
 	foreach ($ships as $ship)
 		$print_ship[] = $ship->getName();
 	$_SESSION['print_ship'] = $print_ship;
-	making($move, 1, $player);
+	$_SESSION['player_obj'] = $player->getSerial();
+//	making($move, 1, $player);
 }
 
-function	make_order($move, $array)
+function	make_order($array)
 {
-	$player = making($move, 0, NULL);
+//	$player = making($move, 0, NULL);
+	$player = $_SESSION['player_obj'];
 	$ships = $player->getShips();
 	foreach ($ships as $i => $ship)
 	{
@@ -52,12 +57,14 @@ function	make_order($move, $array)
 			break ;
 		}
 	}
-	making($move, 1, $player);
+//	making($move, 1, $player);
+	$_SESSION['player_obj'] = $player->getSerial();
 }
 
-function	make_mvt($move, $array)
+function	make_mvt($array)
 {
-	$player = making($move, 0, NULL);
+//	$player = making($move, 0, NULL);
+	$player = $_SESSION['player_obj'];
 	$ships = $player->getShips();
 	$ship = $ships[$_SESSION['index_ship']];
 	if (isset($array['bonus_speed']))
@@ -68,7 +75,8 @@ function	make_mvt($move, $array)
 	if (isset($array['bonus_weapon']))
 		$ship->setBonus_Weapon($array['bonus_weapon']);
 	$_SESSION['ship_mvt'] = $ship->getSpeed();
-	making($move, 1, $player);
+	$_SESSION['player_obj'] = $player->getSerial();
+//	making($move, 1, $player);
 }
 
 function	check_collision($grid, $x, $y, $dim)
@@ -89,12 +97,14 @@ function	check_collision($grid, $x, $y, $dim)
 	return -1;
 }
 
-function	make_move($move, $array)
+function	make_move($array)
 {
-	$player = making($move, 0, NULL);
+//	$player = making($move, 0, NULL);
+	$player = $_SESSION['player_obj'];
 	$ships = $player->getShips();
 	$ship = $ships[$_SESSION['index_ship']];
-	$grid = $_SESSION['board'];
+//	$grid = $_SESSION['board'];
+	$grid = get_board();
 	$ship->setOrientation($array['ship_orientation']);
 	$pos = $ship->getPos();
 	$dim = $ship->getDim();
@@ -126,8 +136,19 @@ function	make_move($move, $array)
 		else
 			$ship->setHealth(-1000);
 	}
-	making($move, 1, $player);
-	$_SESSION['board'] = get_board(unserialize($_SESSION['player_1']), unserialize($_SESSION['player_2']), unserialize($_SESSION['asteroid']));
+//	making($move, 1, $player);
+	$_SESSION['player_obj'] = $player->getSerial();
+    try
+    {
+        $bdd = new PDO('mysql:host=localhost;port=8080;dbname=game', 'root', '123456789');
+    }
+    catch(Exception $e)
+    {
+        die('Erreur : '.$e->getMessage());
+    }
+	$pl_serial = "player_".$_SESSION['player_id']."_obj='".$_SESSION['player_obj']."'";
+    $req = $bdd->prepare("UPDATE `party` SET $pl_serial WHERE `id`=1");
+//	$_SESSION['board'] = get_board(unserialize($_SESSION['player_1']), unserialize($_SESSION['player_2']), unserialize($_SESSION['asteroid']));
 }
 
 ?>
