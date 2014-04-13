@@ -6,7 +6,6 @@
 <html>
 <head>
 	<link href="style.css" rel="stylesheet">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 <body>
    <!-- <embed src="music.mp3" autostart="true" loop="true" hidden="true"></embed>-->
@@ -89,24 +88,24 @@
                     foreach ($_SESSION['print_ship'] as $value)
                     {
                         echo ("<div id='ship_name'>");
-                        echo ("<input type='radio' name='ship_to_play' value='".$value."'>".$value);
+                        echo ("<input type='radio' name='ship_to_play' value='".$value."' required>".$value);
                         echo ("</div>");
                     }
                 }
                else if ($_SESSION['order'] == 1)
                 {
                    end_turn(); ?>
-                    <input type="text" id="PP"s disabled>
+                    <input type="text" id="PP" disabled value= <?php if (isset ($_SESSION['ship_power'])) echo $_SESSION['ship_power']; ?> >
                         <input type="button" name="bouton" value="-" onclick="desincremente(1);">
-                        <input type="text" name="bonus_speed" id="incrementation1" value="0">
+                        <input type="text" name="bonus_speed" id="incrementation1" value="0" disabled>
                         <input type="button" name="bouton" value="+" onclick="incremente(1);">
                         Speed <br>
                         <input type="button" name="bouton" value="-" onclick="desincremente(2);">
-                        <input type="text" name="bonus_shield" id="incrementation2" value="0">
+                        <input type="text" name="bonus_shield" id="incrementation2" value="0" disabled>
                         <input type="button" name="bouton" value="+" onclick="incremente(2);">
                         Shield <br>
                         <input type="button" name="bouton" value="-" onclick="desincremente(3);">
-                        <input type="text" name="bonus_weapon" id="incrementation3" value="0">
+                        <input type="text" name="bonus_weapon" id="incrementation3" value="0" disabled>
                         <input type="button" name="bouton" value="+" onclick="incremente(3);">
                         Weapon <br>
         <?php   }
@@ -127,32 +126,6 @@
                 <input type="submit" value="next" class="button">
             </form>
         </div>
-	<div id="chat">
-			   <script type="text/javascript">
-			   function SendForm()
-			   {
-				   var jqxhr = $.ajax({
-					   type: "POST",
-						   url: "chat-set.php",
-						   data: {login: $("#chat_login").val(), text: $("#chat_text").val()}
-				   });
-				   $("#chat_text").val("");
-			   }
-			   var autoLoad = setInterval(
-				   function ()
-				   {
-					   $('#chat_content').load('chat-get.php');
-				   }, 100);
-			   </script>
-		<div id="chat_content"><?php include('chat-get.php'); ?></div>
-<?php
-			   echo '<form id="chat_post" method="post" onsubmit="SendForm(); return false;">
-				   <input type="hidden" id="chat_login" name="login" value="'.$_SESSION['player1_name'].'" />
-				   <label for="message">Message</label> :  <input type="text" id="chat_text" name="text" maxlength="255" >
-				   <input type="submit" id="submit" name="submit" value="Send" />
-				   </form>'; ?> 
-
-	</div>
     </div>
     </div>
 </body>
