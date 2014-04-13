@@ -12,8 +12,29 @@
             $player = unserialize($_SESSION['player_2']);
         $pos = $player->ships[$_SESSION['index_ship']]->getPos();
         $dim = $player->ships[$_SESSION['index_ship']]->getDim();
-        $pos[0] += $dim[0] - 2;
-        $pos[1] -= round(($dim[1]) / 2, 0, PHP_ROUND_HALF_DOWN);
+
+        if ($_SESSION['ship_orientation'] == "right")
+        {
+            $pos[0] += $dim[0] - 2;
+            $pos[1] -= round(($dim[1]) / 2, 0, PHP_ROUND_HALF_DOWN);
+            if ($dim[1] == 3)
+             $pos[3] = 1;
+            else if ($dim[1] == 4)
+                $pos[3] = 2;
+            else
+                $pos[3] = 3;
+        }
+        else
+        {
+            $pos[0] -= $dim[0] - 35;
+            $pos[1] -= round(($dim[1]) / 2, 0, PHP_ROUND_HALF_DOWN);
+            if ($dim[1] == 3)
+             $pos[3] = 1;
+            else if ($dim[1] == 4)
+                $pos[3] = 2;
+            else
+                $pos[3] = 3;
+        }
         return ($pos);
     }
 
@@ -40,33 +61,33 @@
                     $j = 0;
                     while ($j < 150)
                     {
-                        if ($grid[$i][$j] === 11)
+                        if ($grid[$i][$j][0] === 11)
                         echo "<div id='carre'> <img id='bat_p1_middle' title='Star of the Galaxy' src='img/w/1.png'> </div>";
-                        else if ($grid[$i][$j] === 13)
+                        else if ($grid[$i][$j][0] === 13)
                         echo "<div id='carre'> <img id='bat_p1' title='Ultramarines' src='img/w/2.png'> </div>";
-                        else if ($grid[$i][$j] === 14)
-                        echo "<div id='carre'> <img id='bat_p1' title='Dreadclaw' src='img/w/3.png'>  </div>";
-                        else if ($grid[$i][$j] === 10)
+                        else if ($grid[$i][$j][0] === 14)
+                        echo "<div id='carre'> <img id='bat_p1' title='Dreadclaw' src='img/w/3.png'> </div>";
+                        else if ($grid[$i][$j][0] === 10)
                         echo "<div id='carre'> <img id='bat_p1_big' title='Wrath of the Empire' src='img/w/11.png'>  </div>";
-                        else if ($grid[$i][$j] === 15)
+                        else if ($grid[$i][$j][0] === 15)
                         echo "<div id='carre'> <img id='bat_p1' title='Storm Bird' src='img/w/5.png'> </div>";
-                        else if ($grid[$i][$j] === 16)
+                        else if ($grid[$i][$j][0] === 16)
                         echo "<div id='carre'> <img id='bat_p1' title='Vengeful Spirit' src='img/w/3.png'> </div>";
-                        else if ($grid[$i][$j] === 12)
+                        else if ($grid[$i][$j][0] === 12)
                         echo "<div id='carre'> <img id='bat_p1_middle' title='Blood Angels' src='img/w/4.png'> </div>";
-                        else if ($grid[$i][$j] === 18)
+                        else if ($grid[$i][$j][0] === 18)
                         echo "<div id='carre'> <img id='bat_p2_middle' title='Rabbi Jacob' style='-webkit-transform:rotate(180deg)' src='img/w/1.png'> </div>";
-                        else if ($grid[$i][$j] === 20)
+                        else if ($grid[$i][$j][0] === 20)
                         echo "<div id='carre'> <img id='bat_p2' title='Shabbat Shalom' style='-webkit-transform:rotate(180deg)' src='img/w/2.png'> </div>";
-                        else if ($grid[$i][$j] === 21)
+                        else if ($grid[$i][$j][0] === 21)
                         echo "<div id='carre'> <img id='bat_p2' title='Jew Counter-Attacks' style='-webkit-transform:rotate(180deg)' src='img/w/3.png'> </div>";
-                        else if ($grid[$i][$j] === 17)
+                        else if ($grid[$i][$j][0] === 17)
                         echo "<div id='carre'> <img id='bat_p2_big' title='Drone Tsahal' style='-webkit-transform:rotate(180deg)' src='img/w/11.png'> </div>";
-                        else if ($grid[$i][$j] === 22)
+                        else if ($grid[$i][$j][0] === 22)
                         echo "<div id='carre'> <img id='bat_p2' title='David's Death Star' style='-webkit-transform:rotate(180deg)' src='img/w/5.png'> </div>";
-                        else if ($grid[$i][$j] === 23)
+                        else if ($grid[$i][$j][0] === 23)
                         echo "<div id='carre'> <img id='bat_p2' title='Casher Enterprise' style='-webkit-transform:rotate(180deg)' src='img/w/3.png'> </div>";
-                        else if ($grid[$i][$j] === 19)
+                        else if ($grid[$i][$j][0] === 19)
                         echo "<div id='carre'> <img id='bat_p2_middle' title='Israel Battleship' style='-webkit-transform:rotate(180deg)' src='img/w/4.png'> </div>";
                         else if ($grid[$i][$j] === 24)
                         echo "<div id='carre'> <img id='obstacle_big' title='Asteroid' src='img/w/asteroid-1.gif'> </div>";
@@ -81,7 +102,14 @@
                         else if ($grid[$i][$j] === 29)
                         echo "<div id='carre'> <img id='obstacle_big' title='Asteroid' src='img/w/asteroidAn.gif'> </div>";
                         else if ($i == $pos[1] && $j == $pos[0])
-                            echo "<img id='laser' src='img/w/laser_green.png'>";
+                        {
+                            if ($pos[3] == 1)
+                                echo "<img id='laser1' src='img/w/laser_green.png'>";
+                            else if ($pos[3] == 2)
+                                echo "<img id='laser2' src='img/w/laser_green.png'>";
+                            else
+                                echo "<img id='laser3' src='img/w/laser_green.png'>";
+                        }
                         else
                         echo "<div id='carre'></div>";
                         $j++;
@@ -154,9 +182,6 @@
                     else
                     {
                         echo '<div id="panel_form">';
-                            echo "Unleash Your RAGE !!!";
-                        echo "</div>";
-                        echo '<input type="submit" value="fire" class="button">';
                         echo "Unleash Your RAGE !!!";
                         echo "</div>";
                         echo ' <form action="playground.php" method="POST" name="form">';
