@@ -62,12 +62,7 @@
                     echo "<div id='carre'> <img id='obstacle' title='Asteroid' src='img/w/asteroid-4.gif'> </div>";
                     else if ($grid[$i][$j] === 29)
                     echo "<div id='carre'> <img id='obstacle_big' title='Asteroid' src='img/w/asteroidAn.gif'> </div>";
-                    else if ($grid[$i][$j] === 1)
-                    echo "<div id='carre' style='background-color: red'> </div>";
-                    else if ($grid[$i][$j] === 2)
-                    echo "<div id='carre' style='background-color: green'> </div>";
-                    else if ($grid[$i][$j] === 3)
-                    echo "<div id='carre'style='background-color: yellow'> </div>";
+
                     else
                     echo "<div id='carre'></div>";
                     $j++;
@@ -86,48 +81,62 @@
                if ($_SESSION['select'] == 1)
                 {
                     end_turn();
+                    echo "<form action='playground.php' method='POST' name='form'>";
                     foreach ($_SESSION['print_ship'] as $value)
                     {
                         echo ("<div id='ship_name'>");
-                        echo ("<input type='radio' name='ship_to_play' value='".$value."'>".$value);
+                        echo ("<input type='radio' required name='ship_to_play' value='".$value."'>".$value);
                         echo ("</div>");
                     }
+                    echo '<input type="submit" value="next" class="button"> </form>';
                 }
                else if ($_SESSION['order'] == 1)
                 {
                    end_turn(); ?>
-                    <input type="text" id="PP" disabled value= <?php if (isset ($_SESSION['ship_power'])) echo $_SESSION['ship_power']; ?> >
+                   <form action='playground.php' method='POST' name="form">
+                        <input type="text" id="PP" disabled value= <?php if (isset ($_SESSION['ship_power'])) echo $_SESSION['ship_power']; ?> >
                         <input type="button" name="bouton" value="-" onclick="desincremente(1);">
-                        <input type="text" name="bonus_speed" id="incrementation1" value="0">
+                        <input type="text" name="bonus_speed" disabled id="incrementation1" value="0">
                         <input type="button" name="bouton" value="+" onclick="incremente(1);">
                         Speed <br>
                         <input type="button" name="bouton" value="-" onclick="desincremente(2);">
-                        <input type="text" name="bonus_shield" id="incrementation2" value="0">
+                        <input type="text" name="bonus_shield" disabled id="incrementation2" value="0">
                         <input type="button" name="bouton" value="+" onclick="incremente(2);">
                         Shield <br>
                         <input type="button" name="bouton" value="-" onclick="desincremente(3);">
-                        <input type="text" name="bonus_weapon" id="incrementation3" value="0">
+                        <input type="text" name="bonus_weapon" disabled id="incrementation3" value="0">
                         <input type="button" name="bouton" value="+" onclick="incremente(3);">
                         Weapon <br>
+                        <input type="submit" value="nedsa" class="button">
+                    </form>
         <?php   }
                else if ($_SESSION['mvt'] == 1)
                 {
                    end_turn(); ?>
-                    <input type="radio" name="ship_orientation" value="up">Up<br>
-                    <input type="radio" name="ship_orientation" value="down">Down<br>
-                    <input type="radio" name="ship_orientation" value="right">Right<br>
-                    <input type="radio" name="ship_orientation" value="left">Left<br>
+                    <form action='playground.php' method='POST' name="form">
+                        <input type="radio" name="ship_orientation" value="up">Up<br>
+                        <input type="radio" name="ship_orientation" value="down">Down<br>
+                        <input type="radio" name="ship_orientation" value="right">Right<br>
+                        <input type="radio" name="ship_orientation" value="left">Left<br>
 
-                    <input type="button" name="bouton" value="-" onclick="desincremente(1);">
-                    <input type="text" name="deplacement" id="incrementation1" value="0">
-                    <input type="button" name="bouton" value="+" onclick="incremente(1);">
+                        <input type="button" name="bouton" value="-" onclick="desincremente(1);">
+                        <input type="text" name="deplacement" disabled id="incrementation1" value="0">
+                        <input type="button" name="bouton" value="+" onclick="incremente(1);">
+                        <input type="submit" value="next" class="button">
+                    </form>
             <?php
-            } else end_turn();
+
+            }
+            else
+            {
+                echo "Unleash Your RAGE !!!";
+                echo '<input type="submit" value="fire" class="button">';
+                end_turn();
+                end_turn();
+            }
             ?>
-                <input type="submit" value="next" class="button">
-            </form>
-        </div>
-	<div id="chat">
+             </div>
+             <div id="chat">
 			   <script type="text/javascript">
 			   function SendForm()
 			   {
@@ -150,7 +159,7 @@
 				   <input type="hidden" id="chat_login" name="login" value="'.$_SESSION['player1_name'].'" />
 				   <label for="message">Message</label> :  <input type="text" id="chat_text" name="text" maxlength="255" >
 				   <input type="submit" id="submit" name="submit" value="Send" />
-				   </form>'; ?> 
+				   </form>'; ?>
 
 	</div>
     </div>
