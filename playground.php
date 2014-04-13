@@ -12,8 +12,16 @@
             $player = unserialize($_SESSION['player_2']);
         $pos = $player->ships[$_SESSION['index_ship']]->getPos();
         $dim = $player->ships[$_SESSION['index_ship']]->getDim();
+
+        if ()
         $pos[0] += $dim[0] - 2;
         $pos[1] -= round(($dim[1]) / 2, 0, PHP_ROUND_HALF_DOWN);
+        if ($dim[1] == 3)
+            $pos[3] = 1;
+        else if ($dim[1] == 4)
+            $pos[3] = 2;
+        else
+            $pos[3] = 3;
         return ($pos);
     }
 
@@ -81,7 +89,14 @@
                         else if ($grid[$i][$j] === 29)
                         echo "<div id='carre'> <img id='obstacle_big' title='Asteroid' src='img/w/asteroidAn.gif'> </div>";
                         else if ($i == $pos[1] && $j == $pos[0])
-                            echo "<img id='laser' src='img/w/laser_green.png'>";
+                        {
+                            if ($pos[3] == 1)
+                                echo "<img id='laser1' src='img/w/laser_green.png'>";
+                            else if ($pos[3] == 2)
+                                echo "<img id='laser2' src='img/w/laser_green.png'>";
+                            else
+                                echo "<img id='laser3' src='img/w/laser_green.png'>";
+                        }
                         else
                         echo "<div id='carre'></div>";
                         $j++;
