@@ -4,16 +4,13 @@
     turn();
     require_once("functionjs.php");
 
-    function    take_pos()
+    function    first($player)
     {
-        if ($_SESSION['move'] == 1)
-            $player = unserialize($_SESSION['player_1']);
-        else
-            $player = unserialize($_SESSION['player_2']);
         $pos = $player->ships[$_SESSION['index_ship']]->getPos();
         $dim = $player->ships[$_SESSION['index_ship']]->getDim();
-
-        if ($_SESSION['ship_orientation'] == "right")
+        $or = $player->ships[$_SESSION['index_ship']]->getOrientation();
+        echo $or;
+        if ($or == "right")
         {
             $pos[0] += $dim[0] - 2;
             $pos[1] -= round(($dim[1]) / 2, 0, PHP_ROUND_HALF_DOWN);
@@ -24,10 +21,32 @@
             else
                 $pos[3] = 3;
         }
+        else if ($or == "left")
+        {
+            $pos[0] -= $dim[0] + 2;
+            $pos[1] += round(($dim[1]) / 2, 0, PHP_ROUND_HALF_DOWN);
+            if ($dim[1] == 3)
+             $pos[3] = 1;
+            else if ($dim[1] == 4)
+                $pos[3] = 2;
+            else
+                $pos[3] = 3;
+        }
+        else if ($or == "up")
+        {
+            $pos[0] += round($dim[0] / 2, 0, PHP_ROUND_HALF_DOWN);
+            $pos[1] -= $dim[1] + 2;
+            if ($dim[1] == 3)
+             $pos[3] = 1;
+            else if ($dim[1] == 4)
+                $pos[3] = 2;
+            else
+                $pos[3] = 3;
+        }
         else
         {
-            $pos[0] -= $dim[0] - 35;
-            $pos[1] -= round(($dim[1]) / 2, 0, PHP_ROUND_HALF_DOWN);
+            $pos[0] -= round($dim[0] / 2);
+            $pos[1] += $dim[1] - 2;
             if ($dim[1] == 3)
              $pos[3] = 1;
             else if ($dim[1] == 4)
@@ -36,6 +55,72 @@
                 $pos[3] = 3;
         }
         return ($pos);
+    }
+
+    function    second($player)
+    {
+        $pos = $player->ships[$_SESSION['index_ship']]->getPos();
+        $dim = $player->ships[$_SESSION['index_ship']]->getDim();
+        $or = $player->ships[$_SESSION['index_ship']]->getOrientation();
+        if ($or == "right")
+        {
+            $pos[0] += 1;
+            $pos[1] += round(($dim[1]) / 2, 0, PHP_ROUND_HALF_DOWN);
+            if ($dim[1] == 3)
+             $pos[3] = 1;
+            else if ($dim[1] == 4)
+                $pos[3] = 2;
+            else
+                $pos[3] = 3;
+        }
+        else if ($or == "left")
+        {
+            $pos[0] -= 33;
+            $pos[1] -= round(($dim[1]) / 2, 0, PHP_ROUND_HALF_DOWN);
+            if ($dim[1] == 3)
+             $pos[3] = 1;
+            else if ($dim[1] == 4)
+                $pos[3] = 2;
+            else
+                $pos[3] = 3;
+        }
+        else if ($or == "up")
+        {
+            $pos[0] -= round($dim[0] / 2, 0, PHP_ROUND_HALF_DOWN);
+            $pos[1] -= 33;
+            if ($dim[1] == 3)
+             $pos[3] = 1;
+            else if ($dim[1] == 4)
+                $pos[3] = 2;
+            else
+                $pos[3] = 3;
+        }
+        else
+        {
+            $pos[0] += round($dim[0] / 2, 0, PHP_ROUND_HALF_DOWN);
+            $pos[1] += 1;
+            if ($dim[1] == 3)
+             $pos[3] = 1;
+            else if ($dim[1] == 4)
+                $pos[3] = 2;
+            else
+                $pos[3] = 3;
+        }
+        return ($pos);
+    }
+
+    function    take_pos()
+    {
+        if ($_SESSION['move'] == 1)
+        {
+            $player = unserialize($_SESSION['player_1']);
+            return (first($player));
+        }
+        else
+        {
+            $player = unserialize($_SESSION['player_2']);
+            return (second($player));
+        }
     }
 
 ?>
@@ -120,7 +205,7 @@
             ?>
         </div>
         <div id="panel">
-            <div id="panel_content">
+             <div id="panel_content">
                 <span id="title">
                     <?php if ($_SESSION['move']) echo $_SESSION['player2_name']; else echo $_SESSION['player1_name']; echo "'s turn !" ?>
                 </span>
@@ -143,18 +228,19 @@
                     {
                        end_turn(); ?>
                        <div id="panel_form">
+                       <input type="text" id="PP" disabled value= <?php if (isset ($_SESSION['ship_power'])) echo $_SESSION['ship_power']; ?> >
                        <form action='playground.php' method='POST' name="form">
-                            <input type="text" id="PP" disabled value= <?php if (isset ($_SESSION['ship_power'])) echo $_SESSION['ship_power']; ?> >
+                            <br>
                             <input type="button" name="bouton" value="-" onclick="desincremente(1);">
-                            <input type="text" name="bonus_speed" id="incrementation1" value="0">
+                            <input type="text" name="bonus_speed" onFocus="javascript: this.blur()" id="incrementation1" value="0">
                             <input type="button" name="bouton" value="+" onclick="incremente(1);">
                             Speed <br>
                             <input type="button" name="bouton" value="-" onclick="desincremente(2);">
-                            <input type="text" name="bonus_shield" id="incrementation2" value="0">
+                            <input type="text" name="bonus_shield" onFocus="javascript: this.blur()" id="incrementation2" value="0">
                             <input type="button" name="bouton" value="+" onclick="incremente(2);">
                             Shield <br>
                             <input type="button" name="bouton" value="-" onclick="desincremente(3);">
-                            <input type="text" name="bonus_weapon" id="incrementation3" value="0">
+                            <input type="text" name="bonus_weapon" onFocus="javascript: this.blur()" id="incrementation3" value="0">
                             <input type="button" name="bouton" value="+" onclick="incremente(3);">
                             Weapon <br>
                         </div>
@@ -167,12 +253,10 @@
                         end_turn(); ?>
                         <div id="panel_form">
                         <form action='playground.php' method='POST' name="form">
-                            <input type="radio" name="ship_orientation" value="up">Up<br>
-                            <input type="radio" name="ship_orientation" value="down">Down<br>
-                            <input type="radio" name="ship_orientation" value="right">Right<br>
-                            <input type="radio" name="ship_orientation" value="left">Left<br>
-                            <input type="button" name="bouton" value="-" onclick="desincremente(1);">
-                            <input type="text" name="deplacement" id="incrementation1" value="0">
+                            <input type="radio" name="ship_orientation" value="left" style="margin-left: calc(50% - 30px);">Left<br>
+                            <input type="radio" name="ship_orientation" value="right" style="margin-left: calc(50% - 30px);">Right<br>
+                            <input type="button" name="bouton" value="-" onFocus="javascript: this.blur()" onclick="desincremente(1);" style="margin-left: calc(50% - 30px);">
+                            <input type="text" name="deplacement" onFocus="javascript: this.blur()" id="incrementation1" value="0">
                             <input type="button" name="bouton" value="+" onclick="incremente(1);">
                         </div>
                             <input type="submit" value="next" class="button">

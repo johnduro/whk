@@ -95,10 +95,38 @@ function	make_move($move, $array)
 	$ships = $player->getShips();
 	$ship = $ships[$_SESSION['index_ship']];
 	$grid = $_SESSION['board'];
-	$ship->setOrientation($array['ship_orientation']);
+	$shp = $_SESSION['ship_orientation'];
+	if (isset($array['ship_orientation']))
+	{
+		$or = $array['ship_orientation'];
+		if ($or == "left")
+		{
+			if ($shp == "left")
+				$shp = "down";
+			else if ($shp == "right")
+				$shp = "up";
+			else if ($shp == "down")
+				$shp = "right";
+			else
+				$shp = "left";
+			$ship->setOrientation($shp);
+		}
+		else
+		{
+			if ($shp == "left")
+				$shp = "up";
+			else if ($shp == "right")
+				$shp = "down";
+			else if ($shp == "down")
+				$shp = "left";
+			else
+				$shp = "right";
+			$ship->setOrientation($shp);
+		}
+	}
 	$pos = $ship->getPos();
 	$dim = $ship->getDim();
-	if ($array['ship_orientation'] === "down")
+	if ($shp === "down")
 	{
 		$y = $pos[1] + intval($array['deplacement']);
 		if ($y < 100 && check_collision($grid, $pos[0], $y, $dim) === -1)
@@ -108,7 +136,7 @@ function	make_move($move, $array)
 		else
 			$ship->setHealth(-1000);
 	}
-	if ($array['ship_orientation'] === "up")
+	if ($shp === "up")
 	{
 		$y = $pos[1] - intval($array['deplacement']);
 		if ($y >= 0 && check_collision($grid, $pos[0], $y, $dim) === -1)
@@ -118,7 +146,7 @@ function	make_move($move, $array)
 		else
 			$ship->setHealth(-1000);
 	}
-	if ($array['ship_orientation'] === "right")
+	if ($shp === "right")
 	{
 		$y = $pos[0] + intval($array['deplacement']);
 		if ($y < 150 && check_collision($grid, $y, $pos[1], $dim) === -1)
@@ -128,7 +156,7 @@ function	make_move($move, $array)
 		else
 			$ship->setHealth(-1000);
 	}
-	if ($array['ship_orientation'] === "left")
+	if ($shp === "left")
 	{
 		$y = $pos[0] - intval($array['deplacement']);
 		if ($y >=0 && check_collision($grid, $y, $pos[1], $dim) === -1 || intval($array['deplacement']) <= $dim[0])
