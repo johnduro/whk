@@ -11,11 +11,14 @@ require_once('Serial.trait.php');
 
 function	fire_in_the_hole($player, $a, $b)
 {
-	$hit = array($a, $b);
+	$hit = array($b, $a);
 	foreach ($player->ships as &$ship)
 	{
-		if ($ship->is_take_damage($hit, 20))
+		if ($ship->is_take_damage($hit, -20))
+		{
+			echo $ship->getName()." => ".$ship->getHealth();
 			break;
+		}
 	}
 	return ($player);
 }
@@ -34,12 +37,12 @@ function	down_fire($pos, $range, $tab, $p1, $p2, $pa, $bol, $move)
 	{
 		if (($tab[$i][$pos[0]] == 2 || ($tab[$i][$pos[0]] >= 17 && $tab[$i][$pos[0]] <= 23)) && $move == 1)
 		{
-			fire_in_the_hole($p2, $i, $pos[0]);
+			$p2 = fire_in_the_hole($p2, $i, $pos[0]);
 			$_SESSION['player_2'] = $p2->getSerial();
 		}
 		else if (($tab[$i][$pos[0]] == 1 || ($tab[$i][$pos[0]] >=10 && $tab[$i][$pos[0]] <= 16)) && $move != 1)
 		{
-			fire_in_the_hole($p1, $i, $pos[0]);
+			$p1 = fire_in_the_hole($p1, $i, $pos[0]);
 			$_SESSION['player_1'] = $p1->getSerial();
 		}
 		else if ($tab[$i][$pos[0]] == 3 || ($tab[$i][$pos[0]] >= 24 && $tab[$i][$pos[0]] <= 29))
@@ -64,12 +67,12 @@ function	up_fire($pos, $range, $tab, $p1, $p2, $pa, $bol, $move)
 	{
 		if (($tab[$i][$pos[0]] == 2 || ($tab[$i][$pos[0]] >= 17 && $tab[$i][$pos[0]] <= 23)) && $move == 1)
 		{
-			fire_in_the_hole($p2, $i, $pos[0]);
+			$p2 = fire_in_the_hole($p2, $i, $pos[0]);
 			$_SESSION['player_2'] = $p2->getSerial();
 		}
 		else if (($tab[$i][$pos[0]] == 1 || ($tab[$i][$pos[0]] >=10 && $tab[$i][$pos[0]] <= 16)) && $move != 1)
 		{
-			fire_in_the_hole($p1, $i, $pos[0]);
+			$p1 = fire_in_the_hole($p1, $i, $pos[0]);
 			$_SESSION['player_1'] = $p1->getSerial();
 		}
 		else if ($tab[$i][$pos[0]] == 3 || ($tab[$i][$pos[0]] >= 24 && $tab[$i][$pos[0]] <= 29))
@@ -94,12 +97,12 @@ function	right_fire($pos, $range, $tab, $p1, $p2, $pa, $bol, $move)
 	{
 		if (($tab[$pos[1]][$i] == 2 || ($tab[$pos[1]][$i] >= 17 && $tab[$pos[1]][$i] <= 23)) && $move == 1)
 		{
-			fire_in_the_hole($p2, $pos[1], $i);
+			$p2 = fire_in_the_hole($p2, $pos[1], $i);
 			$_SESSION['player_2'] = $p2->getSerial();
 		}
 		else if (($tab[$pos[1]][$i] == 1 || ($tab[$pos[1]][$i] >=10 && $tab[$pos[1]][$i] <= 16)) && $move != 1)
 		{
-			fire_in_the_hole($p1, $pos[1], $i);
+			$p1 = fire_in_the_hole($p1, $pos[1], $i);
 			$_SESSION['player_1'] = $p1->getSerial();
 		}
 		else if ($tab[$pos[1]][$i] == 3 || ($tab[$pos[1]][$i] >= 24 && $tab[$pos[1]][$i] <= 29))
@@ -124,12 +127,12 @@ function	left_fire($pos, $range, $tab, $p1, $p2, $pa, $bol, $move)
 	{
 		if (($tab[$pos[1]][$i] == 2 || ($tab[$pos[1]][$i] >= 17 && $tab[$pos[1]][$i] <= 23)) && $move == 1)
 		{
-			fire_in_the_hole($p2, $pos[1], $i);
+			$p2 = fire_in_the_hole($p2, $pos[1], $i);
 			$_SESSION['player_2'] = $p2->getSerial();
 		}
 		else if (($tab[$pos[1]][$i] == 1 || ($tab[$pos[1]][$i] >=10 && $tab[$pos[1]][$i] <= 16)) && $move != 1)
 		{
-			fire_in_the_hole($p1, $pos[1], $i);
+			$p1 = fire_in_the_hole($p1, $pos[1], $i);
 			$_SESSION['player_1'] = $p1->getSerial();
 		}
 		else if ($tab[$pos[1]][$i] == 3 || ($tab[$pos[1]][$i] >= 24 && $tab[$pos[1]][$i] <= 29))

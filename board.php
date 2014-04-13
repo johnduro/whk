@@ -100,32 +100,32 @@ function	make_move($move, $array)
 	$dim = $ship->getDim();
 	if ($array['ship_orientation'] === "down")
 	{
-		$x = $pos[1] + intval($array['deplacement']);
-		if ($x < 100 && check_collision($grid, $pos[0], $pos[1] + intval($array['deplacement']), $dim) === -1)
+		$y = $pos[1] + intval($array['deplacement']);
+		if ($y < 100 && check_collision($grid, $pos[0], $y, $dim) === -1)
 			$ship->setPos(array($pos[0], $pos[1] + intval($array['deplacement'])));
 		else
 			$ship->setHealth(-1000);
 	}
 	if ($array['ship_orientation'] === "up")
 	{
-		$x = $pos[1] + intval($array['deplacement']);
-		if ($x >= 0 && check_collision($grid, $pos[0], $pos[1] - intval($array['deplacement']), $dim) === -1)
+		$y = $pos[1] - intval($array['deplacement']);
+		if ($y >= 0 && check_collision($grid, $pos[0], $y, $dim) === -1)
 			$ship->setPos(array($pos[0], $pos[1] - intval($array['deplacement'])));
 		else
 			$ship->setHealth(-1000);
 	}
 	if ($array['ship_orientation'] === "right")
 	{
-		$x = $pos[0] + intval($array['deplacement']);
-		if ($x < 150 && check_collision($grid, $pos[0] + intval($array['deplacement']), $pos[1], $dim) === -1)
+		$y = $pos[0] + intval($array['deplacement']);
+		if ($y < 150 && check_collision($grid, $y, $pos[1], $dim) === -1)
 			$ship->setPos(array($pos[0] + intval($array['deplacement']), $pos[1]));
 		else
 			$ship->setHealth(-1000);
 	}
 	if ($array['ship_orientation'] === "left")
 	{
-		$x = $pos[0] + intval($array['deplacement']);
-		if ($x >=0 && check_collision($grid, $pos[0] - intval($array['deplacement']), $pos[1], $dim) === -1)
+		$y = $pos[0] - intval($array['deplacement']);
+		if ($y >=0 && check_collision($grid, $y, $pos[1], $dim) === -1)
 			$ship->setPos(array($pos[0] - intval($array['deplacement']), $pos[1]));
 		else
 			$ship->setHealth(-1000);
