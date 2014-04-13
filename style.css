@@ -15,6 +15,8 @@ body
 
 #board
 {
+	border-right: 1px solid rgba(255, 255, 255, 0.1);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 	display: inline-block;
 	background-image:url("img/0038-moment-in-space-cvi.jpg");
 	border: ;
@@ -273,4 +275,7 @@ body
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e62d0', endColorstr='#3d94f6');
 	background-color:#1e62d0;
 }
-
+#laser
+{
+	width: 60px;
+}

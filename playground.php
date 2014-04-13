@@ -3,6 +3,17 @@
     require_once("play.php");
     turn();
     require_once("functionjs.php");
+    if (isset($_POST['fire']))
+        echo "<img id='laser' src='img/w/laser_green.png'>";
+    function    take_pos()
+    {
+        if ($_SESSION['move'] == 1)
+            $player = unserialize($_SESSION['player_1']);
+        else
+            $player = unserialize($_SESSION['player_2']);
+
+    }
+
 ?>
 <html>
 <head>
@@ -135,9 +146,14 @@
                     else
                     {
                         echo '<div id="panel_form">';
-                            echo "Unleash Your RAGE !!!";
+                        echo "Unleash Your RAGE !!!";
                         echo "</div>";
+                        echo ' <form action="playground.php" method="POST" name="form">';
+                        echo '<input type="text" name="fire" hidden>';
                         echo '<input type="submit" value="fire" class="button">';
+                        echo '</form>';
+                        echo 'icsandlas;ndasdbaf';
+
                         end_turn();
                         end_turn();
                     }
