@@ -71,6 +71,24 @@ function	make_mvt($move, $array)
 	making($move, 1, $player);
 }
 
+function	check_collision($grid, $x, $y, $dim)
+{
+	$i = 0;
+	$j = 0;
+	while ($i < $dim[1])
+	{
+		while ($j < $dim[0])
+		{
+			if ($grid[$i + $y][$j + $x] !== -1)
+				return 1;
+			$j++;
+		}
+		$j = 0;
+		$i++;
+	}
+	return -1;
+}
+
 function	make_move($move, $array)
 {
 	$player = making($move, 0, NULL);
@@ -82,28 +100,28 @@ function	make_move($move, $array)
 	$dim = $ship->getDim();
 	if ($array['ship_orientation'] === "down")
 	{
-		if ($grid[$pos[1] + intval($array['deplacement']) + $dim[1]][$pos[0]] === -1)
+		if (check_collision($grid, $pos[0], $pos[1] + intval($array['deplacement']), $dim) === -1)
 			$ship->setPos(array($pos[0], $pos[1] + intval($array['deplacement'])));
 		else
 			$ship->setHealth(-1000);
 	}
 	if ($array['ship_orientation'] === "up")
 	{
-		if ($grid[$pos[1] - intval($array['deplacement'])][$pos[0]] === -1)
+		if (check_collision($grid, $pos[0], $pos[1] + intval($array['deplacement']), $dim) === -1)
 			$ship->setPos(array($pos[0], $pos[1] - intval($array['deplacement'])));
 		else
 			$ship->setHealth(-1000);
 	}
 	if ($array['ship_orientation'] === "right")
 	{
-		if ($grid[$pos[1]][$pos[0] + intval($array['deplacement']) + $dim[0]] === -1)
+		if (check_collision($grid, $pos[0] + intval($array['deplacement']), $pos[1], $dim) === -1)
 			$ship->setPos(array($pos[0] + intval($array['deplacement']), $pos[1]));
 		else
 			$ship->setHealth(-1000);
 	}
 	if ($array['ship_orientation'] === "left")
 	{
-		if ($grid[$pos[1]][$pos[0] - intval($array['deplacement'])] === -1)
+		if (check_collision($grid, $pos[0] + intval($array['deplacement']), $pos[1], $dim) === -1)
 			$ship->setPos(array($pos[0] - intval($array['deplacement']), $pos[1]));
 		else
 			$ship->setHealth(-1000);
