@@ -109,7 +109,7 @@ function	make_move($move, $array)
 	if ($array['ship_orientation'] === "up")
 	{
 		$x = $pos[1] + intval($array['deplacement']);
-		if ($x >= 0 && check_collision($grid, $pos[0], $pos[1] + intval($array['deplacement']), $dim) === -1)
+		if ($x >= 0 && check_collision($grid, $pos[0], $pos[1] - intval($array['deplacement']), $dim) === -1)
 			$ship->setPos(array($pos[0], $pos[1] - intval($array['deplacement'])));
 		else
 			$ship->setHealth(-1000);
@@ -125,7 +125,7 @@ function	make_move($move, $array)
 	if ($array['ship_orientation'] === "left")
 	{
 		$x = $pos[0] + intval($array['deplacement']);
-		if ($x >=0 && check_collision($grid, $pos[0] + intval($array['deplacement']), $pos[1], $dim) === -1)
+		if ($x >=0 && check_collision($grid, $pos[0] - intval($array['deplacement']), $pos[1], $dim) === -1)
 			$ship->setPos(array($pos[0] - intval($array['deplacement']), $pos[1]));
 		else
 			$ship->setHealth(-1000);
