@@ -19,9 +19,9 @@ final class Weapons
 			$this->_range = 0;
 
 		if (array_key_exists('area', $kwargs))
-			$this->_range = $kwargs['area'];
+			$this->_area = $kwargs['area'];
 		else
-			$this->_range = 0;
+			$this->_area = 0;
 	}
 
 	public static function doc()
