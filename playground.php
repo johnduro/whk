@@ -3,15 +3,18 @@
     require_once("play.php");
     turn();
     require_once("functionjs.php");
-    if (isset($_POST['fire']))
-        echo "<img id='laser' src='img/w/laser_green.png'>";
+
     function    take_pos()
     {
         if ($_SESSION['move'] == 1)
             $player = unserialize($_SESSION['player_1']);
         else
             $player = unserialize($_SESSION['player_2']);
-
+        $pos = $player->ships[$_SESSION['index_ship']]->getPos();
+        $dim = $player->ships[$_SESSION['index_ship']]->getDim();
+        $pos[0] += $dim[0] - 2;
+        $pos[1] -= round(($dim[1]) / 2, 0, PHP_ROUND_HALF_DOWN);
+        return ($pos);
     }
 
 ?>
@@ -28,6 +31,10 @@
                 $i = 0;
                 $j = 0;
                 $grid = $_SESSION['board'];
+                if (isset($_POST['fire']))
+                    $pos = take_pos();
+                else
+                    $pos = array(-1 , -1);
                 while($i < 100)
                 {
                     $j = 0;
@@ -38,7 +45,7 @@
                         else if ($grid[$i][$j] === 13)
                         echo "<div id='carre'> <img id='bat_p1' title='Ultramarines' src='img/w/2.png'> </div>";
                         else if ($grid[$i][$j] === 14)
-                        echo "<div id='carre'> <img id='bat_p1' title='Dreadclaw' src='img/w/3.png'> </div>";
+                        echo "<div id='carre'> <img id='bat_p1' title='Dreadclaw' src='img/w/3.png'>  </div>";
                         else if ($grid[$i][$j] === 10)
                         echo "<div id='carre'> <img id='bat_p1_big' title='Wrath of the Empire' src='img/w/11.png'>  </div>";
                         else if ($grid[$i][$j] === 15)
@@ -73,7 +80,8 @@
                         echo "<div id='carre'> <img id='obstacle' title='Asteroid' src='img/w/asteroid-4.gif'> </div>";
                         else if ($grid[$i][$j] === 29)
                         echo "<div id='carre'> <img id='obstacle_big' title='Asteroid' src='img/w/asteroidAn.gif'> </div>";
-
+                        else if ($i == $pos[1] && $j == $pos[0])
+                            echo "<img id='laser' src='img/w/laser_green.png'>";
                         else
                         echo "<div id='carre'></div>";
                         $j++;
