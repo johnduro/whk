@@ -55,7 +55,7 @@ class Pawn
 		return FALSE;
 	}
 
-	public static function doc() {return file_get_contents("./Pawn:wwwwwww.doc.txt");}
+	public static function doc() {return file_get_contents("./Pawn.doc.txt");}
 
 	public function	getHealth() {return $this->_health;}
 	public function	getPos() {return $this->_pos;}

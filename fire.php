@@ -15,10 +15,7 @@ function	fire_in_the_hole($player, $a, $b)
 	foreach ($player->ships as &$ship)
 	{
 		if ($ship->is_take_damage($hit, -20))
-		{
-			echo $ship->getName()." => ".$ship->getHealth();
 			break;
-		}
 	}
 	return ($player);
 }
@@ -47,7 +44,12 @@ function	down_fire($pos, $range, $tab, $p1, $p2, $pa, $bol, $move)
 		}
 		else if ($tab[$i][$pos[0]] == 3 || ($tab[$i][$pos[0]] >= 24 && $tab[$i][$pos[0]] <= 29))
 		{
-			$pa->setHealth(-3);
+			$hit = array($pos[0], $i);
+			foreach ($pa as &$ast)
+			{
+				if ($ship->is_take_damage($hit, -20))
+				break;
+			}
 			$_SESSION['asteroid'] = serialize($pa);
 		}
 	}
@@ -77,7 +79,12 @@ function	up_fire($pos, $range, $tab, $p1, $p2, $pa, $bol, $move)
 		}
 		else if ($tab[$i][$pos[0]] == 3 || ($tab[$i][$pos[0]] >= 24 && $tab[$i][$pos[0]] <= 29))
 		{
-			$pa->setHealth(-3);
+			$hit = array($pos[0], $i);
+			foreach ($pa as &$ast)
+			{
+				if ($ship->is_take_damage($hit, -20))
+				break;
+			}
 			$_SESSION['asteroid'] = serialize($pa);
 		}
 	}
@@ -107,7 +114,12 @@ function	right_fire($pos, $range, $tab, $p1, $p2, $pa, $bol, $move)
 		}
 		else if ($tab[$pos[1]][$i] == 3 || ($tab[$pos[1]][$i] >= 24 && $tab[$pos[1]][$i] <= 29))
 		{
-			$pa->setHealth(-3);
+			$hit = array($i, $pos[1]);
+			foreach ($pa as &$ast)
+			{
+				if ($ship->is_take_damage($hit, -20))
+				break;
+			}
 			$_SESSION['asteroid'] = serialize($pa);
 		}
 	}
@@ -137,7 +149,12 @@ function	left_fire($pos, $range, $tab, $p1, $p2, $pa, $bol, $move)
 		}
 		else if ($tab[$pos[1]][$i] == 3 || ($tab[$pos[1]][$i] >= 24 && $tab[$pos[1]][$i] <= 29))
 		{
-			$pa->setHealth(-3);
+			$hit = array($i, $pos[1]);
+			foreach ($pa as &$ast)
+			{
+				if ($ship->is_take_damage($hit, -20))
+				break;
+			}
 			$_SESSION['asteroid'] = serialize($pa);
 		}
 	}
