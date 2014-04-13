@@ -1,5 +1,10 @@
 <?php
 session_start();
+if (file_exists('install') === TRUE)
+{
+	include('install/install.php');
+	exit;
+}
 foreach ($_SESSION as $key => $value)
 {
 	if ($key !== "init_game")
