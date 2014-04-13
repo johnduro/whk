@@ -88,14 +88,14 @@
                     foreach ($_SESSION['print_ship'] as $value)
                     {
                         echo ("<div id='ship_name'>");
-                        echo ("<input type='radio' name='ship_to_play' value='".$value."'>".$value);
+                        echo ("<input type='radio' name='ship_to_play' value='".$value."' required>".$value);
                         echo ("</div>");
                     }
                 }
                else if ($_SESSION['order'] == 1)
                 {
                    end_turn(); ?>
-                    <input type="text" id="PP"s disabled>
+                    <input type="text" id="PP" value=<?php if ($_SESSION['ship_speed']) echo ('"$_SESSION[ship_speed]"'); ?> disabled>
                         <input type="button" name="bouton" value="-" onclick="desincremente(1);">
                         <input type="text" name="bonus_speed" id="incrementation1" value="0">
                         <input type="button" name="bouton" value="+" onclick="incremente(1);">
