@@ -2,14 +2,7 @@
 
 date_default_timezone_set('Europe/Paris');
 
-try
-{
-	$bdd = new PDO('mysql:host=localhost;port=8080;dbname=42_rush1', 'root', '123456');
-}
-catch(Exception $e)
-{
-	die('Erreur : '.$e->getMessage());
-}
+require_once('sql.php');
 
 if (isset($_POST['login'], $_POST['text']))
 {
@@ -21,5 +14,5 @@ if (isset($_POST['login'], $_POST['text']))
 }
 
 $req->closeCursor();
-$bdd = NULL;
+
 ?>

@@ -1,13 +1,6 @@
 <?php
 
-try
-{
-	$bdd = new PDO('mysql:host=localhost;port=8080;dbname=42_rush1', 'root', '123456');
-}
-catch(Exception $e)
-{
-	die('Erreur : '.$e->getMessage());
-}
+require_once('sql.php');
 
 $reponse = $bdd->query('SELECT * FROM t_chat ORDER BY id DESC LIMIT 10');
 
@@ -21,6 +14,5 @@ while ($donnees = $reponse->fetch())
 }
 
 $reponse->closeCursor();
-$bdd = NULL;
 
 ?>
